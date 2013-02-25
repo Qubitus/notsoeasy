@@ -76,7 +76,6 @@ public class GameTable extends JPanel implements Observer {
 		// Set the Panel minimum size
 		setMinimumSize(new Dimension(cardSize.width * 6 + STACK_SPREAD * 10,
 				cardSize.height * 4));
-
 	}
 
 	public StateManager getStateManager() {

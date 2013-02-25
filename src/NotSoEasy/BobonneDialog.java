@@ -21,14 +21,14 @@ public class BobonneDialog extends JDialog {
 		ImageIcon icon = new ImageIcon(ImageManager.getInstance().getImage("Bobonne"));
 	    JLabel label = new JLabel(icon);
 	    label.setMinimumSize(new Dimension(icon.getIconHeight(), icon.getIconWidth()));
-	    label.setAlignmentX(0.5f);
 	    add(label);
 
-	    JPanel textPanel = new JPanel(new GridLayout(2,1));
 	    JLabel bobonneLabel = new JLabel("Bobonne says: ");
 	    bobonneLabel.setFont(new Font("Serif", Font.BOLD, 16));
 	    JLabel textLabel = new JLabel(message);
 	    textLabel.setFont(new Font("Serif", Font.PLAIN, 13));
+	    
+	    JPanel textPanel = new JPanel(new GridLayout(2,1));
 	    textPanel.add(bobonneLabel);
 	    textPanel.add(textLabel);
 	    add(textPanel);
