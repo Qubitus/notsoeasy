@@ -139,10 +139,9 @@ public class GameTable extends JPanel implements Observer {
 		}
 
 		if (validMove) {
+			sm.addState();
 			if (sm.getCurrentState().isCompleted())
 				endOfGame();
-			else
-				sm.addState();
 		} else {
 			repaint();
 		}

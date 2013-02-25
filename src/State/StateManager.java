@@ -8,7 +8,8 @@ import Card.CardDeck;
 
 /**
  * A GameState Manager class
- * @author npyck
+ * 
+ * @author Pyck Nicolas
  */
 public class StateManager extends Observable {
 
@@ -24,7 +25,9 @@ public class StateManager extends Observable {
 
 	/**
 	 * Sets the current GameState according to the internal currentStateCounter
-	 * and notifies all observers that the current GameState has changed.
+	 * and notifies all observers that the current GameState has changed. The
+	 * current GameState object is always a clone of a GameState contained
+	 * within the undo/redo queue.
 	 */
 	private void setCurrentState() {
 		currentState = states.get(currentStateCounter).clone();
