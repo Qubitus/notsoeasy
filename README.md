@@ -4,7 +4,7 @@
 Bobonne's challenge is a cardgame that resembles Solitaire but with
 a few notable differences.  Firstly the game consists of 8 play stacks
 and 4 spare stacks.  The goal of the game is to sort all available cards 
-into only 4 remaining card stacks, where each stack contains the cards 
+into only 4 remaining card stacks, where each stack must contain the cards 
 King-to-Ace of 1 particular suit.  Cards can only be placed on top of
 other cards when they possess the correct descending rank as well as have
 the same suit and are all facing up.
