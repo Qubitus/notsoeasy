@@ -6,7 +6,6 @@ import java.awt.Color;
  * A game card class
  * 
  * @author Pyck Nicolas
- * @version Version 1.0
  */
 public class Card implements Comparable<Card> {
 

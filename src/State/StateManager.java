@@ -9,7 +9,6 @@ import Card.CardDeck;
 /**
  * A GameState Manager class
  * @author npyck
- * @version 1.0
  */
 public class StateManager extends Observable {
 
