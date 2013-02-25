@@ -3,7 +3,7 @@ package Card;
 import java.util.Random;
 
 /**
- * An abstract Deck class
+ * A card deck implementation class that contains a full deck of Cards.
  * 
  * @author Pyck Nicolas
  */

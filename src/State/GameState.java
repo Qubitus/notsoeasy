@@ -7,16 +7,35 @@ import Card.CardDeck;
 import Card.CardStack;
 import Rules.StackRules;
 
+/**
+ * A game state implementation class.
+ * 
+ * @author Pyck Nicolas
+ * 
+ */
 public class GameState {
 
-	private CardStack[]	playStacks;
-	private CardStack[]	spareStacks;
+	private CardStack[] playStacks;
+	private CardStack[] spareStacks;
 
+	/**
+	 * Default constructor.
+	 * 
+	 * @param deck
+	 *            The CardDeck from which Cards will be drawn.
+	 */
 	public GameState(CardDeck deck) {
-		playStacks = initPlayStacks(deck);
-		spareStacks = initSpareStacks(deck);
+		initPlayStacks(deck);
+		initSpareStacks(deck);
 	}
 
+	/**
+	 * Constructor for a GameState that will be identical to the specified
+	 * GameState.
+	 * 
+	 * @param oldState
+	 *            The base GameState to be cloned.
+	 */
 	private GameState(GameState oldState) {
 		// Deep copy the playstacks
 		playStacks = new CardStack[oldState.playStacks.length];
@@ -31,7 +50,13 @@ public class GameState {
 		}
 	}
 
-	private CardStack[] initPlayStacks(CardDeck deck) {
+	/**
+	 * Initializes the play CardStacks.
+	 * 
+	 * @param deck
+	 *            CardDeck object from which to draw Cards.
+	 */
+	private void initPlayStacks(CardDeck deck) {
 		CardStack[] playStacks = new CardStack[8];
 
 		for (int i = 0; i < playStacks.length; i++) {
@@ -47,10 +72,16 @@ public class GameState {
 			}
 		}
 
-		return playStacks;
+		this.playStacks = playStacks;
 	}
 
-	private CardStack[] initSpareStacks(CardDeck deck) {
+	/**
+	 * Initializes the spare CardStacks.
+	 * 
+	 * @param deck
+	 *            CardDeck object from which to draw Cards.
+	 */
+	private void initSpareStacks(CardDeck deck) {
 		CardStack[] spareStacks = new CardStack[4];
 
 		for (int i = 0; i < spareStacks.length; i++) {
@@ -58,13 +89,24 @@ public class GameState {
 			spareStacks[i] = deck.pop(1);
 		}
 
-		return spareStacks;
+		this.spareStacks = spareStacks;
 	}
 
+	/**
+	 * Deep copy clone.
+	 * 
+	 * @return GameState object identical to the original GameState.
+	 */
 	public GameState clone() {
 		return new GameState(this);
 	}
-	
+
+	/**
+	 * Determines whether the GameState is considered completed.
+	 * 
+	 * @return <code>true</code> is all CardStacks are completed, otherwise
+	 *         <code>false</code>.
+	 */
 	public boolean isCompleted() {
 		for (CardStack stack : playStacks) {
 			if (!stack.isCompleted())
@@ -79,6 +121,12 @@ public class GameState {
 		return true;
 	}
 
+	/**
+	 * Determines whether the GameState is considered playable.
+	 * 
+	 * @return <code>true</code> if all CardStacks are still playable,
+	 *         <code>false</code> if any CardStack is unplayable.
+	 */
 	public boolean isPlayable() {
 		for (int i = 0; i < playStacks.length; i += 2) {
 			if (!playStacks[i].isPlayable())
@@ -86,11 +134,17 @@ public class GameState {
 		}
 		return true;
 	}
-	
+
+	/**
+	 * @return A CardStack array containing all play CardStacks.
+	 */
 	public CardStack[] getPlayStacks() {
 		return playStacks;
 	}
 
+	/**
+	 * @return A CardStack array containing all spare CardStacks.
+	 */
 	public CardStack[] getSpareStacks() {
 		return spareStacks;
 	}

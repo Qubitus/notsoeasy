@@ -5,10 +5,13 @@ import java.util.Stack;
 import Card.Card;
 import Card.CardStack;
 
+/**
+ * Rules implementation for a play CardStack
+ * 
+ * @author Pyck Nicolas
+ * 
+ */
 public class StackPlayRules implements StackRules {
-
-	public StackPlayRules() {
-	}
 
 	@Override
 	public boolean validMove(Card source, CardStack target) {
@@ -18,9 +21,9 @@ public class StackPlayRules implements StackRules {
 			Card targetCard = target.getCards().lastElement();
 
 			valid &= source.getSuit() == targetCard.getSuit();
-			valid &= (source.getRank().ordinal() + 1) == targetCard.getRank().ordinal();
-		}
-		else {
+			valid &= (source.getRank().ordinal() + 1) == targetCard.getRank()
+					.ordinal();
+		} else {
 			valid &= source.getRank() == Card.Rank.King;
 		}
 
@@ -38,12 +41,14 @@ public class StackPlayRules implements StackRules {
 	public boolean isCompleted(CardStack stack) {
 		if (stack.isEmpty())
 			return true;
-		else if (stack.getSize() < Card.Rank.values().length || stack.containsCovered())
+		else if (stack.getSize() < Card.Rank.values().length
+				|| stack.containsCovered())
 			return false;
 		else {
 			Stack<Card> cards = stack.getCards();
 			for (int i = 0; i < cards.size() - 1; i++) {
-				if (cards.get(i).getSuit() != cards.get(i + 1).getSuit() && cards.get(i).compareTo(cards.get(i + 1)) != -1)
+				if (cards.get(i).getSuit() != cards.get(i + 1).getSuit()
+						&& cards.get(i).compareTo(cards.get(i + 1)) != -1)
 					return false;
 			}
 			return true;
@@ -59,7 +64,8 @@ public class StackPlayRules implements StackRules {
 				if (cards.get(i - 1).getFacing() == Card.Facing.FaceDown) {
 					for (int j = i - 1; i >= 0; j--) {
 						if (cards.get(i).getSuit() == cards.get(j).getSuit()
-								&& cards.get(i).getRank().ordinal() + 1 == cards.get(j).getSuit().ordinal())
+								&& cards.get(i).getRank().ordinal() + 1 == cards
+										.get(j).getSuit().ordinal())
 							return false;
 					}
 

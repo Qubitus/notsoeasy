@@ -3,6 +3,12 @@ package Rules;
 import Card.Card;
 import Card.CardStack;
 
+/**
+ * Rules implementation that specifies no rules on a CardStack.
+ * 
+ * @author Pyck Nicolas
+ * 
+ */
 public class StackNoRules implements StackRules {
 
 	@Override

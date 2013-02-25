@@ -3,7 +3,7 @@ package Card;
 import java.awt.Color;
 
 /**
- * A game card class
+ * A game card implementation class.
  * 
  * @author Pyck Nicolas
  */

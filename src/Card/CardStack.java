@@ -5,7 +5,7 @@ import java.util.Stack;
 import Rules.StackRules;
 
 /**
- * A Card Stack implementation
+ * A card stack implementation class.
  * 
  * @author Pyck Nicolas
  */
@@ -218,7 +218,7 @@ public class CardStack {
 	}
 
 	/**
-	 * Method to determine if the CardStack holds no Cards.
+	 * Determines if the CardStack holds no Cards.
 	 * 
 	 * @return <code>true</code> if the stack is empty, otherwise
 	 *         <code>false</code>.
@@ -228,7 +228,7 @@ public class CardStack {
 	}
 
 	/**
-	 * Method to determine if the CardStack is considered completed.
+	 * Determines if the CardStack is considered completed.
 	 * 
 	 * @return <code>true</code> if the stack is completed according to the
 	 *         stack's StackRules, otherwise <code>false</code>.
@@ -238,7 +238,7 @@ public class CardStack {
 	}
 
 	/**
-	 * Method to determine if the CardStack is considered playable.
+	 * Determines if the CardStack is considered playable.
 	 * 
 	 * @return <code>true</code> if the stack is playable according to the
 	 *         stack's StackRules, otherwise <code>false</code>.
