@@ -1,5 +1,6 @@
 package NotSoEasy;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -9,6 +10,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,7 +19,7 @@ public class AboutDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
-	public AboutDialog(JFrame parent) {
+	public AboutDialog(Component parent) {
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
 	    add(Box.createRigidArea(new Dimension(0, 10)));

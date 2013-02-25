@@ -15,6 +15,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
 
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
@@ -125,7 +126,7 @@ public class GameTable extends JPanel implements Observer {
 						break;
 					}
 				}
-				
+
 				if (!validMove)
 					sourceStack.push(dragStack);
 			} else {
@@ -135,16 +136,23 @@ public class GameTable extends JPanel implements Observer {
 					lastCard.flip();
 				}
 			}
-			
+
 		}
 
-		if (validMove)
-			sm.addState();
-		else
+		if (validMove) {
+			if (sm.getCurrentState().isCompleted())
+				endOfGame();
+			else
+				sm.addState();
+		} else {
 			repaint();
-		
-		sourceStack = null;
-		dragStack = null;
+		}
+	}
+
+	public void endOfGame() {
+		JDialog endOfGameDialog = new BobonneDialog(this, "Congratulations",
+				"Congratulations dear, you have succesfully completed my challenge!");
+		endOfGameDialog.setVisible(true);
 	}
 
 	@Override
@@ -176,7 +184,7 @@ public class GameTable extends JPanel implements Observer {
 		}
 
 		// Draw the dragstack
-		if (dragStack != null) {
+		if (dragStack != null && !dragStack.isEmpty()) {
 			paintComponent(g, dragStack, dragLoc);
 		}
 	}
@@ -338,6 +346,8 @@ public class GameTable extends JPanel implements Observer {
 			if (sourceStack != null) {
 				doMove();
 			}
+			sourceStack = null;
+			dragStack = null;
 		}
 	}
 }

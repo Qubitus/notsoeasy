@@ -36,10 +36,12 @@ public class ImageManager {
 	private void loadImages() {
 		String basePath = "/Resources/";
 		
+		URL bobonneURL = Card.class.getResource(basePath + "Bobonne.png");
 		URL coverURL = Card.class.getResource(basePath + "NewCover.png");
 		URL backgroundURL = Card.class.getResource(basePath + "Background.jpg");
 		URL silenzioURL = ImageManager.class.getResource(basePath + "Silenzio.png");
 		try {
+			images.put("Bobonne", ImageIO.read(bobonneURL));
 			images.put("Silenzio", ImageIO.read(silenzioURL));
 			images.put("Background", ImageIO.read(backgroundURL));
 			images.put("Cover", makeRoundedCorner(ImageIO.read(coverURL), 9, new Color(120, 37, 40)));
