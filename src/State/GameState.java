@@ -5,7 +5,6 @@ import java.util.Stack;
 import Card.Card;
 import Card.CardDeck;
 import Card.CardStack;
-import Card.CardStack.Direction;
 import Rules.StackRules;
 
 public class GameState {
@@ -36,7 +35,7 @@ public class GameState {
 		CardStack[] playStacks = new CardStack[8];
 
 		for (int i = 0; i < playStacks.length; i++) {
-			playStacks[i] = new CardStack(StackRules.PLAY_RULES, Direction.South);
+			playStacks[i] = new CardStack(StackRules.PLAY_RULES);
 			playStacks[i].push(deck.pop(6));
 
 			// Flip the first 3 cards of stacks 2, 4 & 6
@@ -55,7 +54,7 @@ public class GameState {
 		CardStack[] spareStacks = new CardStack[4];
 
 		for (int i = 0; i < spareStacks.length; i++) {
-			spareStacks[i] = new CardStack(StackRules.SPARE_RULES, Direction.None);
+			spareStacks[i] = new CardStack(StackRules.SPARE_RULES);
 			spareStacks[i] = deck.pop(1);
 		}
 

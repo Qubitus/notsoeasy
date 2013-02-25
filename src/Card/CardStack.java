@@ -8,53 +8,39 @@ import Rules.StackRules;
  * A Card Stack implementation
  * 
  * @author Pyck Nicolas
- * @version Version 1.0
  */
 public class CardStack {
 
-	public enum Direction {
-		None,
-		North,
-		East,
-		South,
-		West;
-	}
-
-	protected Stack<Card>	stack;
-	protected StackRules	rules;
-	protected Direction		direction;
+	protected Stack<Card> stack;
+	protected StackRules rules;
 
 	/**
-	 * Default constructor with StackRules.NO_RULES as stack rules
+	 * Default constructor with <code>StackRules.NO_RULES</code> as stack rules.
 	 */
 	public CardStack() {
-		this(StackRules.NO_RULES, Direction.None);
+		this(StackRules.NO_RULES);
 	}
 
 	/**
-	 * Constructor
+	 * Constructor with specified StackRules.
 	 * 
 	 * @param rules
-	 *            StackRules to be applied to the stack
-	 * @param direction
-	 *            Spread Direction
+	 *            StackRules to be applied to the stack.
 	 */
-	public CardStack(StackRules rules, Direction direction) {
+	public CardStack(StackRules rules) {
 		super();
 
 		this.stack = new Stack<Card>();
 		this.rules = rules;
-		
-		this.direction = direction;
 	}
 
 	/**
-	 * Deep copy clone method
+	 * Deep copy clone method.
 	 * 
-	 * @return CardStack object identical to the original
+	 * @return CardStack object identical to the original CardStack.
 	 */
 	public CardStack clone() {
-		CardStack cs = new CardStack(this.rules, this.direction);
+		CardStack cs = new CardStack(this.rules);
 
 		for (Card card : stack) {
 			cs.push(card.clone());
@@ -64,21 +50,22 @@ public class CardStack {
 	}
 
 	/**
-	 * @return The number of Card object contained within the CardStack
+	 * @return The number of Card objects contained within the CardStack.
 	 */
 	public int getSize() {
 		return stack.size();
 	}
 
 	/**
-	 * @return The collection of Card objects contained within the CardStack
+	 * @return The collection of Card objects contained within the CardStack.
 	 */
 	public Stack<Card> getCards() {
 		return stack;
 	}
 
 	/**
-	 * @return The index of the first Card object that has a FaceUp facing
+	 * @return The index of the first Card object that has a
+	 *         <code>Facing.FaceUp</code> facing.
 	 */
 	public int firstFaceUp() {
 		for (int i = 0; i < stack.size(); i++) {
@@ -90,7 +77,7 @@ public class CardStack {
 	}
 
 	/**
-	 * @return The top Card object, null if the CardStack size equals 0
+	 * @return The top Card object, null if the CardStack size equals 0.
 	 */
 	public Card top() {
 		int size = stack.size();
@@ -102,28 +89,28 @@ public class CardStack {
 
 	/**
 	 * @param index
-	 *            The position of the Card object to be returned
-	 * @return The Card object at the specified position
+	 *            The position of the Card object to be returned.
+	 * @return The Card object located the specified index.
 	 */
 	public Card elementAt(int index) {
 		return stack.get(index);
 	}
 
 	/**
-	 * Pushes a Card upon on the stack
+	 * Pushes a Card upon on the stack.
 	 * 
 	 * @param card
-	 *            The Card to be pushed on the stack
+	 *            The Card to be pushed onto the CardStack.
 	 */
 	public void push(Card card) {
 		stack.push(card);
 	}
 
 	/**
-	 * Pushes a CardStack on the stack
+	 * Pushes a CardStack on the stack.
 	 * 
 	 * @param cs
-	 *            The CardStack to be pushed on the stack
+	 *            The CardStack to be pushed onto the CardStack.
 	 */
 	public void push(CardStack cs) {
 		while (!cs.isEmpty()) {
@@ -132,44 +119,42 @@ public class CardStack {
 	}
 
 	/**
-	 * Try and push a Card on the stack
+	 * Try and push a Card on the stack.
 	 * 
 	 * @param card
-	 *            The Card to be pushed on the stack
+	 *            The Card to be pushed onto the stack
 	 * @return <code>true</code> if the push was successful, <code>false</code>
-	 *         if the push failed
+	 *         if the push failed.
 	 */
 	public boolean tryPush(Card card) {
 		if (rules.validMove(card, this)) {
 			push(card);
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
 
 	/**
-	 * Try and push a CardStack on the stack
+	 * Try and push a CardStack on the stack.
 	 * 
 	 * @param cs
-	 *            The CardStack to be pushed on the stack
+	 *            The CardStack to be pushed onto the stack.
 	 * @return <code>true</code> if the push was successful, <code>false</code>
-	 *         if the push failed
+	 *         if the push failed.
 	 */
 	public boolean tryPush(CardStack cs) {
 		if (rules.validMove(cs, this)) {
 			while (!cs.isEmpty())
 				push(cs);
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
 
 	/**
-	 * Pops a card from the stack.
+	 * Pops a Card from the stack.
 	 * 
-	 * @return The card on top of the stack.
+	 * @return The top Card of the CardStack.
 	 */
 	public Card pop() {
 		Card c = stack.pop();
@@ -181,13 +166,13 @@ public class CardStack {
 	 * Pops several cards from the stack into a new CardStack.
 	 * 
 	 * @param n
-	 *            Number of cards to be popped.
-	 * @return A new CardStack containing the cards popped.
+	 *            Number of Cards to be popped.
+	 * @return A new CardStack containing the Cards popped.
 	 */
 	public CardStack pop(int n) {
 		CardStack cs = null;
 		if (n > 0 && n <= cardCount()) {
-			cs = new CardStack(rules, direction);
+			cs = new CardStack(rules);
 
 			for (int i = n; i > 0 && !isEmpty(); i--) {
 				cs.push(pop());
@@ -200,12 +185,12 @@ public class CardStack {
 	}
 
 	/**
-	 * Pops several cards from the stack into a returned stack until the
-	 * specified card is reached.
+	 * Pops several Cards from the stack into a returned CardStack until the
+	 * specified Card is reached.
 	 * 
 	 * @param card
-	 *            Last card to be popped.
-	 * @return A stack containing the cards popped.
+	 *            Last Card to be popped.
+	 * @return A stack containing the Cards popped.
 	 */
 	public CardStack pop(Card card) {
 		int index = stack.indexOf(card);
@@ -214,57 +199,60 @@ public class CardStack {
 	}
 
 	/**
-	 * @return The number of cards contained on the stack.
+	 * @return The number of Cards contained within the stack.
 	 */
 	public int cardCount() {
 		return stack.size();
 	}
 
 	/**
+	 * Determines whether or not the stack contains a specified Card.
+	 * 
 	 * @param c
 	 *            Card to check.
-	 * @return <CODE>true</CODE> if the stack contains the card,
-	 *         <CODE>false</CODE> otherwise.
+	 * @return <code>true</code> if the stack contains the card,
+	 *         <code>false</code> otherwise.
 	 */
 	public boolean contains(Card c) {
 		return stack.contains(c);
 	}
 
 	/**
-	 * Method to determine if the CardStack holds no Cards
+	 * Method to determine if the CardStack holds no Cards.
 	 * 
 	 * @return <code>true</code> if the stack is empty, otherwise
-	 *         <code>false</code>
+	 *         <code>false</code>.
 	 */
 	public boolean isEmpty() {
 		return stack.isEmpty();
 	}
 
 	/**
-	 * Method to determine if the CardStack is considered completed
+	 * Method to determine if the CardStack is considered completed.
 	 * 
 	 * @return <code>true</code> if the stack is completed according to the
-	 *         stack rules, otherwise <code>false</code>
+	 *         stack's StackRules, otherwise <code>false</code>.
 	 */
 	public boolean isCompleted() {
 		return rules.isCompleted(this);
 	}
 
 	/**
-	 * Method to determine if the CardStack is considered playable
+	 * Method to determine if the CardStack is considered playable.
 	 * 
-	 * @return <code>true</code> if the stack is playable according to the stack
-	 *         rules, otherwise <code>false</code>
+	 * @return <code>true</code> if the stack is playable according to the
+	 *         stack's StackRules, otherwise <code>false</code>.
 	 */
 	public boolean isPlayable() {
 		return rules.isPlayable(this);
 	}
 
 	/**
-	 * Determines if the CardStack contains any Cards that are faced down
+	 * Determines if the CardStack contains any Cards that have a
+	 * <code>Facing.FaceDown</code> facing.
 	 * 
-	 * @return <code>true</code> if the stack contains covered cards, otherwise
-	 *         <code>false</code>
+	 * @return <code>true</code> if the stack contains any covered Cards,
+	 *         otherwise <code>false</code>.
 	 */
 	public boolean containsCovered() {
 		for (Card card : stack) {
@@ -275,27 +263,10 @@ public class CardStack {
 	}
 
 	/**
-	 * @return the constants corresponding to the spreading direction of the
-	 *         stack of cards.
-	 */
-	public Direction getDirection() {
-		return direction;
-	}
-
-	/**
-	 * @param sd
-	 *            Constant corresponding to the spreading direction of the stack
-	 *            of cards.
-	 */
-	public void setDirection(Direction direction) {
-		this.direction = direction;
-	}
-
-	/**
-	 * Reverses the cards contained within the CardStack
+	 * Reverses the Cards contained within the CardStack
 	 */
 	public void reverse() {
-		CardStack newStack = new CardStack(rules, direction);
+		CardStack newStack = new CardStack(rules);
 
 		while (!this.isEmpty())
 			newStack.push(pop());
@@ -303,6 +274,7 @@ public class CardStack {
 		stack = newStack.stack;
 	}
 
+	@Override
 	/**
 	 * @return String representation of the CardStack.
 	 */

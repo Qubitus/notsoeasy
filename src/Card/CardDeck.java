@@ -5,12 +5,11 @@ import java.util.Random;
 
 /** An abstract Deck class
  * @author Pyck Nicolas
- * @version Version 1.0
  */
 public class CardDeck extends CardStack {
 
 	/**
-	 * Default constructor
+	 * Default constructor.
 	 */
 	public CardDeck()
 	{

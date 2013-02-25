@@ -2,7 +2,6 @@ package Card;
 
 import java.awt.Color;
 
-
 /**
  * A game card class
  * 
@@ -11,6 +10,11 @@ import java.awt.Color;
  */
 public class Card implements Comparable<Card> {
 
+	/**
+	 * Card suit enumeration
+	 * 
+	 * @author Pyck Nicolas
+	 */
 	public enum Suit {
 
 		Spades(Color.BLACK), Clubs(Color.BLACK), Hearts(Color.RED), Diamonds(
@@ -27,11 +31,22 @@ public class Card implements Comparable<Card> {
 		}
 	};
 
+	/**
+	 * Card rank enumeration
+	 * 
+	 * @author Pyck Nicolas
+	 */
 	public enum Rank {
 
 		Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King;
 	};
 
+	/**
+	 * Card facing enumeration
+	 * 
+	 * @author Pyck Nicolas
+	 * 
+	 */
 	public enum Facing {
 		FaceDown, FaceUp;
 	};
@@ -41,7 +56,7 @@ public class Card implements Comparable<Card> {
 	protected Facing facing;
 
 	/**
-	 * Card constructor with default FaceUp facing
+	 * Card constructor with default <code>Facing.FaceUp</code> facing.
 	 * 
 	 * @param suit
 	 *            Suit of the new Card object
@@ -53,7 +68,7 @@ public class Card implements Comparable<Card> {
 	}
 
 	/**
-	 * Card constructor
+	 * Card constructor.
 	 * 
 	 * @param suit
 	 *            Suit of the new Card object
@@ -69,21 +84,21 @@ public class Card implements Comparable<Card> {
 	}
 
 	/**
-	 * @return Rank of the Card
+	 * @return Rank of the Card.
 	 */
 	public Rank getRank() {
 		return rank;
 	}
 
 	/**
-	 * @return Suit of the Card
+	 * @return Suit of the Card.
 	 */
 	public Suit getSuit() {
 		return suit;
 	}
 
 	/**
-	 * @return Color of the card. May be either <CODE>Color.RED</CODE> or
+	 * @return Color of the card, can be either <CODE>Color.RED</CODE> or
 	 *         <CODE>Color.BLACK</CODE>.
 	 */
 	public Color getColor() {
@@ -91,22 +106,23 @@ public class Card implements Comparable<Card> {
 	}
 
 	/**
-	 * @return Facing of the Card
+	 * @return Facing of the Card.
 	 */
 	public Facing getFacing() {
 		return facing;
 	}
 
 	/**
-	 * @return True if the card has a facing equal to Facing.FaceDown, else
-	 *         false
+	 * @return True if the card has a facing equal to
+	 *         <code>Facing.FaceDown</code>, false if the facing equals
+	 *         <code>Facing.FaceUp</code>.
 	 */
 	public boolean isFacingDown() {
 		return facing == Facing.FaceDown;
 	}
 
 	/**
-	 * Flips the card over
+	 * Flips the card over.
 	 */
 	public void flip() {
 		switch (facing) {
@@ -121,10 +137,10 @@ public class Card implements Comparable<Card> {
 
 	@Override
 	/**
-	 * @param target Target Card to be compared to
-	 * @return <code>-1</code> if the current Card is positioned in front of the target Card
-	 * 		   <code>0</code> if the current Card equals the position of the target Card
-	 * 		   <code>1</code> if the current Card is positioned behind of the target Card
+	 * @param target Target Card with which the current Card is to be compared.
+	 * @return <code>-1</code> if the current Card is positioned in front of the target Card.
+	 * 		   <code>0</code> if the current Card equals the position of the target Card.
+	 * 		   <code>1</code> if the current Card is positioned behind of the target Card.
 	 */
 	public int compareTo(Card target) {
 		if (suit == target.suit) {
@@ -135,9 +151,9 @@ public class Card implements Comparable<Card> {
 
 	@Override
 	/**
-	 * @param target Target Card to be compared
-	 * @return <code>true</code> if both Card objects are equal
-	 * 		   <code>false</code> if both Card objects are equal
+	 * @param target Target Card with which the current Card is to be compared.
+	 * @return <code>true</code> if both Card objects are equal.
+	 * 		   <code>false</code> if both Card objects are not equal
 	 */
 	public boolean equals(Object target) {
 		if (target instanceof Card)
@@ -148,7 +164,7 @@ public class Card implements Comparable<Card> {
 
 	@Override
 	/**
-	 * @return String representation of the Card
+	 * @return String representation of the Card.
 	 */
 	public String toString() {
 		String text;
@@ -160,9 +176,9 @@ public class Card implements Comparable<Card> {
 	}
 
 	/**
-	 * Deep copy clone method
+	 * Deep copy clone method.
 	 * 
-	 * @return Card object identical to the original
+	 * @return Card object identical to the original Card.
 	 */
 	public Card clone() {
 		Card newCard = new Card(suit, rank, facing);
