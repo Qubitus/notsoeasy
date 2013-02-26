@@ -24,7 +24,6 @@ import State.StateManager;
 
 import Card.Card;
 import Card.CardStack;
-import Card.Card.Facing;
 
 public class GameTable extends JPanel implements Observer {
 
@@ -39,7 +38,7 @@ public class GameTable extends JPanel implements Observer {
 	private Point dragStackLoc;
 	private Point[] playStackLoc;
 	private Point[] spareStackLoc;
-	
+
 	private Dimension cardSize;
 
 	public static int STACK_SPREAD = 20;
@@ -231,14 +230,9 @@ public class GameTable extends JPanel implements Observer {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		if (c.getFacing() == Facing.FaceDown) {
-			g2.drawImage(im.getImage("Cover"), p.x, p.y, cardSize.width,
-					cardSize.height, null);
-		} else {
-			BufferedImage cardImage = im.getImage(c.toString());
-			g2.drawImage(cardImage, p.x, p.y, cardSize.width, cardSize.height,
-					null);
-		}
+		BufferedImage cardImage = im.getImage(c.toString());
+		g2.drawImage(cardImage, p.x, p.y, cardSize.width, cardSize.height, null);
+
 	}
 
 	private Dimension getDimension(CardStack cs) {
@@ -337,8 +331,8 @@ public class GameTable extends JPanel implements Observer {
 				Rectangle rect = getRectangle(dragStack, dragStackLoc);
 
 				Point mouseLoc = e.getPoint();
-				dragStackLoc = new Point(mouseLoc.x + relativeDragLoc.x, mouseLoc.y
-						+ relativeDragLoc.y);
+				dragStackLoc = new Point(mouseLoc.x + relativeDragLoc.x,
+						mouseLoc.y + relativeDragLoc.y);
 
 				rect.add(getRectangle(dragStack, dragStackLoc));
 				repaint(rect);

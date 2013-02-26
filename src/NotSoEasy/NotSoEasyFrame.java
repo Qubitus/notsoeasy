@@ -42,7 +42,7 @@ public class NotSoEasyFrame extends JFrame implements Observer {
 		
 		stateManager = gameTable.getStateManager();
 		stateManager.addObserver(this);
-
+		
 		initMenuBar();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
