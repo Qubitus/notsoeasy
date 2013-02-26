@@ -124,6 +124,8 @@ public class NotSoEasyFrame extends JFrame implements Observer {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(gameMenu);
 		menuBar.add(helpMenu);
+		
+		// Add the menubar to the window
 		this.setJMenuBar(menuBar);
 
 		updateMenu();

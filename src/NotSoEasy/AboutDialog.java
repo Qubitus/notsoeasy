@@ -13,53 +13,67 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
+/**
+ * Simple about dialog containing the Silenzio logo and some basic info.
+ * 
+ * @author Pyck Nicolas.
+ * 
+ */
 public class AboutDialog extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Constructor for AboutDialog.
+	 * 
+	 * @param parent
+	 *            The parent Component element.
+	 */
 	public AboutDialog(Component parent) {
 		setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 
-	    add(Box.createRigidArea(new Dimension(0, 10)));
+		add(Box.createRigidArea(new Dimension(0, 10)));
 
-	    ImageIcon icon = new ImageIcon(ImageManager.getInstance().getImage("Silenzio"));
-	    JLabel label = new JLabel(icon);
-	    label.setMinimumSize(new Dimension(icon.getIconHeight(), icon.getIconWidth()));
-	    label.setAlignmentX(0.5f);
-	    add(label);
+		ImageIcon icon = new ImageIcon(ImageManager.getInstance().getImage(
+				"Silenzio"));
+		JLabel label = new JLabel(icon);
+		label.setMinimumSize(new Dimension(icon.getIconHeight(), icon
+				.getIconWidth()));
+		label.setAlignmentX(0.5f);
+		add(label);
 
-	    add(Box.createRigidArea(new Dimension(0, 10)));
+		add(Box.createRigidArea(new Dimension(0, 10)));
 
-	    JLabel name = new JLabel("Bobonne's Challenge, v1.0");
-	    name.setFont(new Font("Serif", Font.BOLD, 13));
-	    name.setAlignmentX(0.5f);
-	    add(name);
-	    
-	    JLabel copyright = new JLabel("\u00a9 2013 - Silenzio bvba");
-	    copyright.setFont(new Font("Serif", Font.BOLD, 13));
-	    copyright.setAlignmentX(0.5f);
-	    add(copyright);
+		JLabel name = new JLabel("Bobonne's Challenge, v1.0");
+		name.setFont(new Font("Serif", Font.BOLD, 13));
+		name.setAlignmentX(0.5f);
+		add(name);
 
-	    add(Box.createRigidArea(new Dimension(0, 50)));
+		JLabel copyright = new JLabel("\u00a9 2013 - Silenzio bvba");
+		copyright.setFont(new Font("Serif", Font.BOLD, 13));
+		copyright.setAlignmentX(0.5f);
+		add(copyright);
 
-	    JButton close = new JButton("Close");
-	    close.addActionListener(new ActionListener() {
+		add(Box.createRigidArea(new Dimension(0, 50)));
 
-	        public void actionPerformed(ActionEvent event) {
-	            dispose();
-	        }
-	    });
+		JButton close = new JButton("Close");
+		close.addActionListener(new ActionListener() {
 
-	    close.setAlignmentX(0.5f);
-	    add(close);
+			public void actionPerformed(ActionEvent event) {
+				dispose();
+			}
+		});
 
-	    setResizable(false);
-	    setModalityType(ModalityType.APPLICATION_MODAL);
-	    setTitle("About Bobonne's Challenge");
-	    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	    
-	    pack();
-	    setLocationRelativeTo(parent);
+		close.setAlignmentX(0.5f);
+		add(close);
+
+		setResizable(false);
+		setModalityType(ModalityType.APPLICATION_MODAL);
+		setTitle("About Bobonne's Challenge");
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+		pack();
+		setLocationRelativeTo(parent);
 	}
-	
+
 }

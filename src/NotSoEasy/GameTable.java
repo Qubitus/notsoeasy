@@ -36,18 +36,23 @@ public class GameTable extends JPanel implements Observer {
 	private CardStack dragStack;
 	private CardStack sourceStack;
 
-	private Point dragLoc;
+	private Point dragStackLoc;
 	private Point[] playStackLoc;
 	private Point[] spareStackLoc;
+	
 	private Dimension cardSize;
 
 	public static int STACK_SPREAD = 20;
 	public static int FACEUP_SPREAD = 30;
 	public static int FACEDOWN_SPREAD = 15;
 
+	/**
+	 * Default GameTable constructor.
+	 */
 	public GameTable() {
 		super();
 
+		// Initialize the state manager
 		sm = new StateManager();
 		sm.addObserver(this);
 		sm.init();
@@ -59,7 +64,7 @@ public class GameTable extends JPanel implements Observer {
 		playStackLoc = new Point[sm.getCurrentState().getPlayStacks().length];
 		spareStackLoc = new Point[sm.getCurrentState().getPlayStacks().length];
 
-		// Add Resize Listener
+		// Add the resize listener
 		addComponentListener(new ComponentAdapter() {
 
 			@Override
@@ -68,12 +73,12 @@ public class GameTable extends JPanel implements Observer {
 			}
 		});
 
-		// Add Mouse Listener
+		// Add the mouse listener
 		MyMouseInputAdapter adapter = new MyMouseInputAdapter();
 		addMouseListener(adapter);
 		addMouseMotionListener(adapter);
 
-		// Set the Panel minimum size
+		// Set the panel minimum size
 		setMinimumSize(new Dimension(cardSize.width * 6 + STACK_SPREAD * 10,
 				cardSize.height * 4));
 	}
@@ -112,7 +117,7 @@ public class GameTable extends JPanel implements Observer {
 		boolean validMove = false;
 		if (sourceStack != null) {
 			if (dragStack != null) {
-				Rectangle dragRect = getRectangle(dragStack, dragLoc);
+				Rectangle dragRect = getRectangle(dragStack, dragStackLoc);
 
 				CardStack[] playStacks = sm.getCurrentState().getPlayStacks();
 				for (int i = 0; i < playStacks.length; i++) {
@@ -140,17 +145,19 @@ public class GameTable extends JPanel implements Observer {
 
 		if (validMove) {
 			sm.addState();
-			if (sm.getCurrentState().isCompleted())
-				endOfGame();
+			checkEndOfGame();
 		} else {
 			repaint();
 		}
 	}
 
-	public void endOfGame() {
-		JDialog endOfGameDialog = new BobonneDialog(this, "Congratulations",
-				"Congratulations dear, you have succesfully completed my challenge!");
-		endOfGameDialog.setVisible(true);
+	public void checkEndOfGame() {
+		if (sm.getCurrentState().isCompleted()) {
+			JDialog endOfGameDialog = new BobonneDialog(this,
+					"Congratulations",
+					"Congratulations dear, you have succesfully completed my challenge!");
+			endOfGameDialog.setVisible(true);
+		}
 	}
 
 	@Override
@@ -183,7 +190,7 @@ public class GameTable extends JPanel implements Observer {
 
 		// Draw the dragstack
 		if (dragStack != null && !dragStack.isEmpty()) {
-			paintComponent(g, dragStack, dragLoc);
+			paintComponent(g, dragStack, dragStackLoc);
 		}
 	}
 
@@ -228,8 +235,7 @@ public class GameTable extends JPanel implements Observer {
 			g2.drawImage(im.getImage("Cover"), p.x, p.y, cardSize.width,
 					cardSize.height, null);
 		} else {
-			BufferedImage cardImage = im.getImage(c.getRank().name() + " of "
-					+ c.getSuit().name());
+			BufferedImage cardImage = im.getImage(c.toString());
 			g2.drawImage(cardImage, p.x, p.y, cardSize.width, cardSize.height,
 					null);
 		}
@@ -313,7 +319,7 @@ public class GameTable extends JPanel implements Observer {
 
 					if (!cs.getCards().get(i).isFacingDown()
 							&& cardRect.contains(mouseLoc)) {
-						dragLoc = new Point(cardRect.x, cardRect.y);
+						dragStackLoc = new Point(cardRect.x, cardRect.y);
 						relativeDragLoc = new Point(cardRect.x - mouseLoc.x,
 								cardRect.y - mouseLoc.y);
 						dragStack = cs.pop(counter);
@@ -328,13 +334,13 @@ public class GameTable extends JPanel implements Observer {
 		@Override
 		public void mouseDragged(MouseEvent e) {
 			if (dragStack != null) {
-				Rectangle rect = getRectangle(dragStack, dragLoc);
+				Rectangle rect = getRectangle(dragStack, dragStackLoc);
 
 				Point mouseLoc = e.getPoint();
-				dragLoc = new Point(mouseLoc.x + relativeDragLoc.x, mouseLoc.y
+				dragStackLoc = new Point(mouseLoc.x + relativeDragLoc.x, mouseLoc.y
 						+ relativeDragLoc.y);
 
-				rect.add(getRectangle(dragStack, dragLoc));
+				rect.add(getRectangle(dragStack, dragStackLoc));
 				repaint(rect);
 			}
 		}
