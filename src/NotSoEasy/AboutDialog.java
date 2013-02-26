@@ -10,7 +10,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 public class AboutDialog extends JDialog {
