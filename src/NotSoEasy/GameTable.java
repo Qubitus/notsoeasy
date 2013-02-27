@@ -278,9 +278,9 @@ public class GameTable extends JPanel implements Observer {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			if (e.getButton() == MouseEvent.BUTTON1){
+			if (e.getButton() == MouseEvent.BUTTON1) {
 				Point mouseLoc = e.getPoint();
-				
+
 				GameState currentState = sm.getCurrentState();
 				for (int i = 0; i < currentState.getPlayStacks().length; i++) {
 					CardStack currentStack = currentState.getPlayStacks()[i];
@@ -343,11 +343,13 @@ public class GameTable extends JPanel implements Observer {
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			if (sourceStack != null) {
-				doMove();
+			if (e.getButton() == MouseEvent.BUTTON1) {
+				if (sourceStack != null) {
+					doMove();
+				}
+				sourceStack = null;
+				dragStack = null;
 			}
-			sourceStack = null;
-			dragStack = null;
 		}
 	}
 }
