@@ -278,25 +278,27 @@ public class GameTable extends JPanel implements Observer {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			Point mouseLoc = e.getPoint();
+			if (e.getButton() == MouseEvent.BUTTON1){
+				Point mouseLoc = e.getPoint();
+				
+				GameState currentState = sm.getCurrentState();
+				for (int i = 0; i < currentState.getPlayStacks().length; i++) {
+					CardStack currentStack = currentState.getPlayStacks()[i];
+					Rectangle currentStackRect = getRectangle(currentStack,
+							playStackLoc[i]);
+					if (mousePressedOnStack(currentStack, currentStackRect,
+							mouseLoc))
+						return;
+				}
 
-			GameState currentState = sm.getCurrentState();
-			for (int i = 0; i < currentState.getPlayStacks().length; i++) {
-				CardStack currentStack = currentState.getPlayStacks()[i];
-				Rectangle currentStackRect = getRectangle(currentStack,
-						playStackLoc[i]);
-				if (mousePressedOnStack(currentStack, currentStackRect,
-						mouseLoc))
-					return;
-			}
-
-			for (int i = 0; i < currentState.getSpareStacks().length; i++) {
-				CardStack currentStack = currentState.getSpareStacks()[i];
-				Rectangle currentStackRect = getRectangle(currentStack,
-						spareStackLoc[i]);
-				if (mousePressedOnStack(currentStack, currentStackRect,
-						mouseLoc))
-					return;
+				for (int i = 0; i < currentState.getSpareStacks().length; i++) {
+					CardStack currentStack = currentState.getSpareStacks()[i];
+					Rectangle currentStackRect = getRectangle(currentStack,
+							spareStackLoc[i]);
+					if (mousePressedOnStack(currentStack, currentStackRect,
+							mouseLoc))
+						return;
+				}
 			}
 		}
 
