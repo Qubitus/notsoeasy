@@ -50,18 +50,18 @@ public class GameTable extends JPanel implements Observer {
 	 */
 	public GameTable() {
 		super();
-
+		
 		// Initialize the state manager
 		sm = new StateManager();
 		sm.addObserver(this);
 		sm.init();
+		
+		playStackLoc = new Point[sm.getCurrentState().getPlayStacks().length];
+		spareStackLoc = new Point[sm.getCurrentState().getPlayStacks().length];
 
 		im = ImageManager.getInstance();
 		cardSize = new Dimension(im.getImage("Cover").getWidth(), im.getImage(
 				"Cover").getHeight());
-
-		playStackLoc = new Point[sm.getCurrentState().getPlayStacks().length];
-		spareStackLoc = new Point[sm.getCurrentState().getPlayStacks().length];
 
 		// Add the resize listener
 		addComponentListener(new ComponentAdapter() {
@@ -77,9 +77,10 @@ public class GameTable extends JPanel implements Observer {
 		addMouseListener(adapter);
 		addMouseMotionListener(adapter);
 
-		// Set the panel minimum size
+		// Set the panel minimum size & call resized method
 		setMinimumSize(new Dimension(cardSize.width * 6 + STACK_SPREAD * 10,
 				cardSize.height * 4));
+		resized();
 	}
 
 	public StateManager getStateManager() {
@@ -231,8 +232,14 @@ public class GameTable extends JPanel implements Observer {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		BufferedImage cardImage = im.getImage(c.toString());
+		try
+		{
 		g2.drawImage(cardImage, p.x, p.y, cardSize.width, cardSize.height, null);
-
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private Dimension getDimension(CardStack cs) {
