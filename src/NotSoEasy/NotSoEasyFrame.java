@@ -1,11 +1,16 @@
 package NotSoEasy;
 
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -17,39 +22,49 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import State.StateManager;
 
-
 public class NotSoEasyFrame extends JFrame implements Observer {
 
-	private static final long	serialVersionUID	= 1L;
+	private static final long serialVersionUID = 1L;
 
-	private GameTable			gameTable;
-	private StateManager		stateManager;
-	
-	private JMenuItem			newGameMenuItem;
-	private JMenuItem			resetGameMenuItem;
-	private JMenuItem			undoMoveMenuItem;
-	private JMenuItem			redoMoveMenuItem;
-	private JMenuItem			exitGameMenuItem;
-	
-	private JMenuItem			aboutMenuItem;
+	private GameTable gameTable;
+	private StateManager stateManager;
+
+	private JMenuItem newGameMenuItem;
+	private JMenuItem resetGameMenuItem;
+	private JMenuItem undoMoveMenuItem;
+	private JMenuItem redoMoveMenuItem;
+	private JMenuItem exitGameMenuItem;
+
+	private ButtonGroup cardsizeButtonGroup;
+	private JCheckBoxMenuItem extraLargeCardsizeMenuItem;
+	private JCheckBoxMenuItem largeCardsizeMenuItem;
+	private JCheckBoxMenuItem mediumCardsizeMenuItem;
+	private JCheckBoxMenuItem smallCardsizeMenuItem;
+	private JCheckBoxMenuItem extraSmallCardsizeMenuItem;
+
+	private JMenuItem aboutMenuItem;
 
 	public NotSoEasyFrame() {
 		super("Bobonne's Challenge");
 
 		gameTable = new GameTable();
-		setContentPane(gameTable);
-		setMinimumSize(gameTable.getMinimumSize());
-		
+		setLayout(new GridLayout());
+		getContentPane().add(gameTable);
+
 		stateManager = gameTable.getStateManager();
 		stateManager.addObserver(this);
-		
+
 		initMenuBar();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		setVisible(true);
+		mediumCardsizeMenuItem.doClick();
 	}
 
 	private void initMenuBar() {
 		newGameMenuItem = new JMenuItem("New Game");
-		newGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+		newGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
+				ActionEvent.CTRL_MASK));
 		newGameMenuItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -59,7 +74,8 @@ public class NotSoEasyFrame extends JFrame implements Observer {
 		});
 
 		resetGameMenuItem = new JMenuItem("Reset Game");
-		resetGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
+		resetGameMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R,
+				ActionEvent.CTRL_MASK));
 		resetGameMenuItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -69,7 +85,8 @@ public class NotSoEasyFrame extends JFrame implements Observer {
 		});
 
 		undoMoveMenuItem = new JMenuItem("Undo Move");
-		undoMoveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
+		undoMoveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z,
+				ActionEvent.CTRL_MASK));
 		undoMoveMenuItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -79,7 +96,8 @@ public class NotSoEasyFrame extends JFrame implements Observer {
 		});
 
 		redoMoveMenuItem = new JMenuItem("Redo Move");
-		redoMoveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
+		redoMoveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y,
+				ActionEvent.CTRL_MASK));
 		redoMoveMenuItem.addActionListener(new ActionListener() {
 
 			@Override
@@ -96,7 +114,28 @@ public class NotSoEasyFrame extends JFrame implements Observer {
 				exit();
 			}
 		});
-		
+
+		cardsizeButtonGroup = new ButtonGroup();
+
+		extraLargeCardsizeMenuItem = new JCheckBoxMenuItem("Extra Large");
+		extraLargeCardsizeMenuItem
+				.addActionListener(new CardSizeActionListener(150));
+
+		largeCardsizeMenuItem = new JCheckBoxMenuItem("Large");
+		largeCardsizeMenuItem
+				.addActionListener(new CardSizeActionListener(125));
+
+		mediumCardsizeMenuItem = new JCheckBoxMenuItem("Medium");
+		mediumCardsizeMenuItem
+				.addActionListener(new CardSizeActionListener(100));
+
+		smallCardsizeMenuItem = new JCheckBoxMenuItem("Small");
+		smallCardsizeMenuItem.addActionListener(new CardSizeActionListener(75));
+
+		extraSmallCardsizeMenuItem = new JCheckBoxMenuItem("Extra Small");
+		extraSmallCardsizeMenuItem
+				.addActionListener(new CardSizeActionListener(50));
+
 		aboutMenuItem = new JMenuItem("About");
 		aboutMenuItem.addActionListener(new ActionListener() {
 
@@ -116,15 +155,34 @@ public class NotSoEasyFrame extends JFrame implements Observer {
 		gameMenu.addSeparator();
 		gameMenu.add(exitGameMenuItem);
 
+		// Add the 'Options' MenuItems
+		JMenu optionsMenu = new JMenu("Options");
+		JMenu cardsizeMenu = new JMenu("Cardsize");
+
+		cardsizeMenu.add(extraLargeCardsizeMenuItem);
+		cardsizeMenu.add(largeCardsizeMenuItem);
+		cardsizeMenu.add(mediumCardsizeMenuItem);
+		cardsizeMenu.add(smallCardsizeMenuItem);
+		cardsizeMenu.add(extraSmallCardsizeMenuItem);
+
+		cardsizeButtonGroup.add(extraLargeCardsizeMenuItem);
+		cardsizeButtonGroup.add(largeCardsizeMenuItem);
+		cardsizeButtonGroup.add(mediumCardsizeMenuItem);
+		cardsizeButtonGroup.add(smallCardsizeMenuItem);
+		cardsizeButtonGroup.add(extraSmallCardsizeMenuItem);
+
+		optionsMenu.add(cardsizeMenu);
+
 		// Add the 'Help' MenuItems
 		JMenu helpMenu = new JMenu("Help");
 		helpMenu.add(aboutMenuItem);
-		
+
 		// Add the menus to the menubar
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.add(gameMenu);
+		menuBar.add(optionsMenu);
 		menuBar.add(helpMenu);
-		
+
 		// Add the menubar to the window
 		this.setJMenuBar(menuBar);
 
@@ -140,7 +198,7 @@ public class NotSoEasyFrame extends JFrame implements Observer {
 		JDialog aboutDialog = new AboutDialog(this);
 		aboutDialog.setVisible(true);
 	}
-	
+
 	private void exit() {
 		setVisible(false);
 		System.exit(0);
@@ -150,17 +208,13 @@ public class NotSoEasyFrame extends JFrame implements Observer {
 		try {
 			// Set System L&F
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		}
-		catch (UnsupportedLookAndFeelException e) {
+		} catch (UnsupportedLookAndFeelException e) {
 			// TODO: handle exception
-		}
-		catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			// TODO: handle exception
-		}
-		catch (InstantiationException e) {
+		} catch (InstantiationException e) {
 			// TODO: handle exception
-		}
-		catch (IllegalAccessException e) {
+		} catch (IllegalAccessException e) {
 			// TODO: handle exception
 		}
 		NotSoEasyFrame game = new NotSoEasyFrame();
@@ -170,6 +224,29 @@ public class NotSoEasyFrame extends JFrame implements Observer {
 	@Override
 	public void update(Observable stateManager, Object arg) {
 		updateMenu();
+	}
+
+	private class CardSizeActionListener implements ActionListener {
+
+		private int width;
+
+		public CardSizeActionListener(int width) {
+			this.width = width;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			gameTable.setCardWidth(width);
+
+			// Calculate and set the new minimum size for main window
+			Insets insets = getInsets();
+			Dimension menuBarSize = getJMenuBar().getSize();
+			Dimension minimumSize = new Dimension(insets.left
+					+ gameTable.getMinimumSize().width + insets.right,
+					insets.top + menuBarSize.height
+							+ gameTable.getMinimumSize().height + insets.bottom);
+			setMinimumSize(minimumSize);
+		}
 	}
 
 }

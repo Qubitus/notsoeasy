@@ -50,67 +50,76 @@ public class GameTable extends JPanel implements Observer {
 	 */
 	public GameTable() {
 		super();
-		
+
 		// Initialize the state manager
 		sm = new StateManager();
 		sm.addObserver(this);
 		sm.init();
-		
+
 		playStackLoc = new Point[sm.getCurrentState().getPlayStacks().length];
 		spareStackLoc = new Point[sm.getCurrentState().getPlayStacks().length];
 
 		im = ImageManager.getInstance();
-		cardSize = new Dimension(im.getImage("Cover").getWidth(), im.getImage(
-				"Cover").getHeight());
-
-		// Add the resize listener
-		addComponentListener(new ComponentAdapter() {
-
-			@Override
-			public void componentResized(ComponentEvent e) {
-				resized();
-			}
-		});
+		setCardWidth(im.getImage("Cover").getWidth());
 
 		// Add the mouse listener
 		MyMouseInputAdapter adapter = new MyMouseInputAdapter();
 		addMouseListener(adapter);
 		addMouseMotionListener(adapter);
-
-		// Set the panel minimum size & call resized method
-		setMinimumSize(new Dimension(cardSize.width * 6 + STACK_SPREAD * 10,
-				cardSize.height * 4));
-		resized();
+		
+		// Add the resize listener
+		addComponentListener(new ComponentAdapter() {
+			
+			@Override
+			public void componentResized(ComponentEvent arg0) {
+				repositionStacks();
+			}
+		});
 	}
 
 	public StateManager getStateManager() {
 		return sm;
 	}
 
-	public void resized() {
+	private void repositionStacks() {
+		int padding = 0;
+		if (getSize().width > getMinimumSize().width) {
+			padding = getSize().width - getMinimumSize().width;
+		}
+		
+		// Reposition the playStackLocs
+		for (int i = 0; i < playStackLoc.length; i++) {
+			playStackLoc[i] = new Point(padding/2 + STACK_SPREAD + i
+					* (cardSize.width + STACK_SPREAD), STACK_SPREAD);
+		}
+
+		// Reposition the spareStackLocs
+		for (int i = 0; i < spareStackLoc.length; i++) {
+			spareStackLoc[i] = new Point(padding/2 + STACK_SPREAD + playStackLoc.length
+					* (cardSize.width + STACK_SPREAD), STACK_SPREAD + i
+					* (cardSize.height + STACK_SPREAD));
+		}
+		
+		repaint();
+	}
+
+	public void setCardWidth(int width) {
 		BufferedImage coverImage = im.getImage("Cover");
 
-		double cardWidth = getSize().width / 11;
+		double cardWidth = width;
 		double cardHeight = coverImage.getHeight()
 				* (cardWidth / coverImage.getWidth());
 
 		cardSize = new Dimension((int) cardWidth, (int) cardHeight);
 		FACEUP_SPREAD = (cardSize.height * 30) / 100;
 
-		// Resize the playStackLocs
-		for (int i = 0; i < playStackLoc.length; i++) {
-			playStackLoc[i] = new Point(STACK_SPREAD + i
-					* (cardSize.width + STACK_SPREAD), STACK_SPREAD);
-		}
+		// Set the minimum and preferred window size
+		Dimension minWindowSize = new Dimension(cardSize.width * 9
+				+ STACK_SPREAD * 10, cardSize.height * 4 + STACK_SPREAD * 5);
+		setMinimumSize(minWindowSize);
+		setPreferredSize(minWindowSize);
 
-		// Resize the spareStackLocs
-		for (int i = 0; i < spareStackLoc.length; i++) {
-			spareStackLoc[i] = new Point(STACK_SPREAD + playStackLoc.length
-					* (cardSize.width + STACK_SPREAD), STACK_SPREAD + i
-					* (cardSize.height + STACK_SPREAD));
-		}
-
-		repaint();
+		repositionStacks();
 	}
 
 	public void doMove() {
@@ -232,12 +241,10 @@ public class GameTable extends JPanel implements Observer {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		BufferedImage cardImage = im.getImage(c.toString());
-		try
-		{
-		g2.drawImage(cardImage, p.x, p.y, cardSize.width, cardSize.height, null);
-		}
-		catch (Exception e)
-		{
+		try {
+			g2.drawImage(cardImage, p.x, p.y, cardSize.width, cardSize.height,
+					null);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
